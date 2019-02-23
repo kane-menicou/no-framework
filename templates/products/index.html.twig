@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} | Greeting{% endblock %}
+{% block body %}
+    {% if name == null %}
+        <h1>Hi, what's your name?</h1>
+    {% else %}
+        <h1>Hi {{ name }}</h1>
+    {% endif %}
+{% endblock %}
