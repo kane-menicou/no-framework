@@ -7,9 +7,7 @@ namespace App\Templating;
 use App\Exception\TemplatingEngineException;
 use App\Model\TemplatingEngineInterface;
 use Twig\Environment;
-use Twig_Error_Loader;
-use Twig_Error_Runtime;
-use Twig_Error_Syntax;
+use Twig_Error;
 
 class TwigTemplatingEngine implements TemplatingEngineInterface
 {
@@ -31,7 +29,7 @@ class TwigTemplatingEngine implements TemplatingEngineInterface
     {
         try {
             return $this->twig->render($template, $variables);
-        } catch (Twig_Error_Loader|Twig_Error_Runtime|Twig_Error_Syntax $exception) {
+        } catch (Twig_Error $exception) {
             throw new TemplatingEngineException($exception->getMessage(), 0, $exception);
         }
     }
