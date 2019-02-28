@@ -35,6 +35,7 @@ class ErrorHandlerMiddleware implements MiddlewareInterface
         try {
             return $handler->handle($request);
         } catch (Throwable $throwable) {
+            \var_dump($throwable->getMessage());
             $response = $this->responseGenerator
                 ->generate('_errors/error500.html.twig', [])
             ;

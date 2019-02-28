@@ -8,13 +8,16 @@
     <link rel="stylesheet" href="/assets/main.css">
 </head>
 <body>
-{% ablock navigationBar %}
+{% block navigationBar %}
     {% include '_paritals/navBar.html.twig' %}
 {% endblock %}
 {% block container %}
     <div class="container">
         {% block body %}{% endblock %}
     </div>
+{% endblock %}
+{% block footer %}
+    {% include '_paritals/footer.html.twig' %}
 {% endblock %}
 </body>
 {% block javascripts %}

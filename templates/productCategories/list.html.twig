@@ -1,0 +1,19 @@
+<h1>Categories</h1>
+
+<div class="row">
+    {% for productCategory in productCategories %}
+        <div class="col-12 col-md-6 mt-3">
+            {% include 'productCategories/view.html.twig' with {
+                productCategory: productCategory
+            } %}
+        </div>
+    {% endfor %}
+</div>
+
+{% if preview|default(false) %}
+    <div class="row">
+        <div class="col-12 mt-5">
+            <a href="#" class="shadow d-block mx-auto w-50 btn text-white btn-primary">View more</a>
+        </div>
+    </div>
+{% endif %}

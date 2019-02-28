@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Factory\ZendDiactorosResponseFactory;
 use App\Generator\TemplatePsrResponseGenerator;
 use App\Middleware\ErrorHandlerMiddleware;
+use App\Middleware\ProductCategoriesResponseMiddleware;
 use App\Middleware\ProductResponseMiddleware;
-use App\Model\PsrResponseFactoryInterface;
+use App\Model\ProductCategoriesRepositoryInterface;
 use App\Model\TemplatePsrResponseGeneratorInterface;
 use App\Model\TemplatingEngineInterface;
+use App\Repository\StubProductCategoriesRepositoryInterface;
 use App\Templating\TwigTemplatingEngine;
 use DI\ContainerBuilder;
 use function DI\get;
@@ -19,12 +20,14 @@ use function FastRoute\simpleDispatcher;
 use Middlewares\FastRoute;
 use Middlewares\RequestHandler;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Relay\Relay;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use Zend\Diactoros\ResponseFactory;
 
 class App implements RequestHandlerInterface
 {
@@ -80,10 +83,11 @@ class App implements RequestHandlerInterface
 
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->addDefinitions([
-            PsrResponseFactoryInterface::class           => get(ZendDiactorosResponseFactory::class),
+            ResponseFactoryInterface::class              => get(ResponseFactory::class),
             TemplatePsrResponseGeneratorInterface::class => get(TemplatePsrResponseGenerator::class),
             TemplatingEngineInterface::class             => get(TwigTemplatingEngine::class),
-            \Twig_Environment::class                     => $twig
+            \Twig_Environment::class                     => $twig,
+            ProductCategoriesRepositoryInterface::class  => get(StubProductCategoriesRepositoryInterface::class),
         ]);
 
         return $containerBuilder->build();
@@ -92,5 +96,6 @@ class App implements RequestHandlerInterface
     private function routes(RouteCollector $collector): void
     {
         $collector->get('/products', ProductResponseMiddleware::class);
+        $collector->get('/product-categories', ProductCategoriesResponseMiddleware::class);
     }
 }

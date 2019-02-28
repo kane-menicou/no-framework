@@ -1,9 +1,43 @@
 {% extends 'base.html.twig' %}
 {% block title %}{{ parent() }} | Greeting{% endblock %}
-{% block body %}
-    {% if name == null %}
-        <h1>Hi, what's your name?</h1>
-    {% else %}
-        <h1>Hi {{ name }}</h1>
-    {% endif %}
+{% block container %}
+    <div class="bg-primary position-absolute w-100 h-25" style="z-index: -100;"></div>
+    <div class="jumbotron jumbotron-fluid bg-transparent">
+        <div class="container">
+            <h1 class="text-white">Featured products</h1>
+            <div class="row">
+                <div class="col-6 col-md-4 mt-3">
+                    {% include 'products/view.html.twig' with {
+                        product: {
+                            name: 'Skin Beauty',
+                            image: 'https://i.naturalmojo.de/sites/2/AquaSplash-ProductPic-300x300.jpg',
+                            description: 'Natural product solutions are becoming more and more important both in the nutritional and cosmetics sectors. But what role does nutrition play in the beauty sector? Anyone who deals actively with the topic..',
+                        }
+                    } %}
+                </div>
+                <div class="col-6 col-md-4 mt-3">
+                    {% include 'products/view.html.twig' with {
+                        product: {
+                            name: 'Rubix cube',
+                            description: 'High quality Rubix Cube.'
+                        }
+                    } %}
+                </div>
+                <div class="col-6 col-md-4 mt-3 d-none d-md-block">
+                    {% include 'products/view.html.twig' with {
+                        product: {
+                            name: 'Rubix cube',
+                            description: 'High quality Rubix Cube.'
+                        }
+                    } %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        {% include 'productCategories/list.html.twig' with {
+            preview: true
+        } %}
+    </div>
 {% endblock %}

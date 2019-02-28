@@ -6,9 +6,9 @@ namespace App\Generator;
 
 use App\Exception\TemplateResponseGeneratorException;
 use App\Exception\TemplatingEngineException;
-use App\Model\PsrResponseFactoryInterface;
 use App\Model\TemplatePsrResponseGeneratorInterface;
 use App\Model\TemplatingEngineInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class TemplatePsrResponseGenerator implements TemplatePsrResponseGeneratorInterface
@@ -20,13 +20,13 @@ class TemplatePsrResponseGenerator implements TemplatePsrResponseGeneratorInterf
     private $templatingEngine;
 
     /**
-     * @var PsrResponseFactoryInterface
+     * @var ResponseFactoryInterface
      */
     private $responseFactory;
 
     public function __construct(
         TemplatingEngineInterface $templatingEngine,
-        PsrResponseFactoryInterface $responseFactory
+        ResponseFactoryInterface $responseFactory
     ) {
         $this->templatingEngine = $templatingEngine;
         $this->responseFactory = $responseFactory;

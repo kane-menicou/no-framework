@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class ProductResponseMiddleware implements MiddlewareInterface
+class ProductCategoriesResponseMiddleware implements MiddlewareInterface
 {
 
     /**
@@ -23,12 +23,14 @@ class ProductResponseMiddleware implements MiddlewareInterface
     /**
      * @var ProductCategoriesRepositoryInterface
      */
-    private $categoriesRepository;
+    private $repository;
 
-    public function __construct(TemplatePsrResponseGeneratorInterface $responseGenerator, ProductCategoriesRepositoryInterface $categoriesRepository)
-    {
+    public function __construct(
+        TemplatePsrResponseGeneratorInterface $responseGenerator,
+        ProductCategoriesRepositoryInterface $repository
+    ) {
         $this->responseGenerator = $responseGenerator;
-        $this->categoriesRepository = $categoriesRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -39,9 +41,9 @@ class ProductResponseMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return $this->responseGenerator->generate(
-            'products/index.html.twig',
+            'productCategories/index.html.twig',
             [
-                'productCategories' => $this->categoriesRepository->getFeatured()
+                'productCategories' => $this->repository->getAll()
             ]
         );
     }
